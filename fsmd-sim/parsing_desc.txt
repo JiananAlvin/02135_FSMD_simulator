@@ -1,0 +1,20 @@
+
+OrderedDict([('fsmddescription', OrderedDict([('statelist', OrderedDict([('state', ['INITIALIZE', 'TEST', 'AMINB', 'BMINA', 'FINISH'])])), ('initialstate', 'INITIALIZE'), ('inputlist',
+ OrderedDict([('input', ['in_A', 'in_B'])])), ('variablelist', OrderedDict([('variable', ['var_A', 'var_B'])])), ('operationlist', OrderedDict([('operation', [OrderedDict([('name', 'in
+it_A'), ('expression', 'var_A = in_A')]), OrderedDict([('name', 'init_B'), ('expression', 'var_B = in_B')]), OrderedDict([('name', 'A_minus_B'), ('expression', 'var_A = var_A - var_B')
+]), OrderedDict([('name', 'B_minus_A'), ('expression', 'var_B = var_B - var_A')])])])), ('conditionlist', OrderedDict([('condition', [OrderedDict([('name', 'A_equal_B'), ('expression',
+ 'var_A == var_B')]), OrderedDict([('name', 'A_greater_B'), ('expression', 'var_A > var_B')]), OrderedDict([('name', 'B_greater_A'), ('expression', 'var_A < var_B')])])])), ('fsmd', Or
+deredDict([('INITIALIZE', OrderedDict([('transition', OrderedDict([('condition', 'True'), ('instruction', 'init_A init_B'), ('nextstate', 'TEST')]))])), ('TEST', OrderedDict([('transit
+ion', [OrderedDict([('condition', 'A_equal_B'), ('instruction', 'NOP'), ('nextstate', 'FINISH')]), OrderedDict([('condition', 'A_greater_B'), ('instruction', 'NOP'), ('nextstate', 'AMI
+NB')]), OrderedDict([('condition', 'B_greater_A'), ('instruction', 'NOP'), ('nextstate', 'BMINA')])])])), ('AMINB', OrderedDict([('transition', OrderedDict([('condition', 'True'), ('in
+struction', 'A_minus_B'), ('nextstate', 'TEST')]))])), ('BMINA', OrderedDict([('transition', OrderedDict([('condition', 'True'), ('instruction', 'B_minus_A'), ('nextstate', 'TEST')]))]
+)), ('FINISH', OrderedDict([('transition', OrderedDict([('condition', 'True'), ('instruction', 'NOP'), ('nextstate', 'FINISH')]))]))]))]))])
+
+
+
+
+('operation', 
+	[OrderedDict([('name', 'init_A'), ('expression', 'var_A = in_A')]), 
+	 OrderedDict([('name', 'init_B'), ('expression', 'var_B = in_B')]),
+	 OrderedDict([('name', 'A_minus_B'), ('expression', 'var_A = var_A - var_B')]), 
+	 OrderedDict([('name', 'B_minus_A'), ('expression', 'var_B = var_B - var_A')])])
