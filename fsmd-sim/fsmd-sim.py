@@ -26,9 +26,9 @@ fsmd_stim = {}
 if len(sys.argv) == 4:
     with open(sys.argv[3]) as fd:
         fsmd_stim = xmltodict.parse(fd.read())
-print("[fsmd_stim]++++++++++++++++++++++++++++++++++++++++++++++")
-print(fsmd_stim)
-print("[fsmd_stim]++++++++++++++++++++++++++++++++++++++++++++++")
+# print("[fsmd_stim]++++++++++++++++++++++++++++++++++++++++++++++")
+# print(fsmd_stim)
+# print("[fsmd_stim]++++++++++++++++++++++++++++++++++++++++++++++")
 
 print("\n--FSMD description--")
 
@@ -221,9 +221,9 @@ def execute_operation(operation):  # var_A = 100(in_A)
 # a single space using the expression defined in the dictionary 'operations'
 #
 def execute_instruction(instruction):   # "init_A init_B A_minus_B B_minus_A"  # contain the operation(s) of the cycle
-    print("[instruction]++++++++++++++++++++++++++++++++++++++++++++++")
-    print(instruction)
-    print("[instruction]++++++++++++++++++++++++++++++++++++++++++++++")
+    # print("[instruction]++++++++++++++++++++++++++++++++++++++++++++++")
+    # print(instruction)
+    # print("[instruction]++++++++++++++++++++++++++++++++++++++++++++++")
     if instruction == 'NOP' or instruction == 'nop':   # no operations are performed in a given state
         return
     instruction_split = instruction.split(' ')   # ["init_A", "init_B", "A_minus_B", "B_minus_A"]
@@ -267,36 +267,45 @@ def merge_dicts(*dict_args):   # arbitrary numbers of arguments, *args tuple for
 # Start to simulate
 cycle = 0
 state = initial_state   # will be changed with the cycle
+repeat = True
 
 print('\n---Start simulation---')
 
 ######################################
-try:
-    if (not(fsmd_stim['fsmdstimulus']['setinput'] is None)):
-        for setinput in fsmd_stim['fsmdstimulus']['setinput']:
-            print("[setinput]+++++++++++++++++++++++++++++++++++++++++")
-            print(setinput)
-            print("[setinput]+++++++++++++++++++++++++++++++++++++++++")
-            if type(setinput) is str:
-                #Only one element
-                if int(fsmd_stim['fsmdstimulus']['setinput']['cycle']) == cycle:
-                    execute_setinput(fsmd_stim['fsmdstimulus']['setinput']['expression'])
-                break
-            else:
-                #More than 1 element
-                if int(setinput['cycle']) == cycle:
-                    execute_setinput(setinput['expression'])
-except:
-    pass
+for cycle in range(iterations+1):
+    try:
+        if (not(fsmd_stim['fsmdstimulus']['setinput'] is None)):
+            for setinput in fsmd_stim['fsmdstimulus']['setinput']:
+                # print("[setinput]+++++++++++++++++++++++++++++++++++++++++")
+                # print(setinput)
+                # print("[setinput]+++++++++++++++++++++++++++++++++++++++++")
+                if type(setinput) is str:
+                    #Only one element
+                    if int(fsmd_stim['fsmdstimulus']['setinput']['cycle']) == cycle:
+                        execute_setinput(fsmd_stim['fsmdstimulus']['setinput']['expression'])
+                    break
+                else:
+                    #More than 1 element
+                    if int(setinput['cycle']) == cycle:
+                        execute_setinput(setinput['expression'])
+    except:
+        pass
 
 
-try:
-    if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)):
-        if state == fsmd_stim['fsmdstimulus']['endstate']:
-            print('End-state reached.')
-            repeat = False
-except:
-    pass
+    try:
+        if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)):
+            if state == fsmd_stim['fsmdstimulus']['endstate']:
+                print('End-state reached.')
+                repeat = False
+    except:
+        pass
+
+    # Print information for each cycle:
+    print("Cycle: " + cycle)
+    print("Current state: " + state)
+    for transition in fsmd[state]:
+
+
 
 ######################################
 # Write your code here!
