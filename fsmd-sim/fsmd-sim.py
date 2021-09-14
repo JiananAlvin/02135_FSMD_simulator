@@ -300,10 +300,12 @@ for cycle in range(iterations+1):
     except:
         pass
 
-    # Print information for each cycle:
-    print("Cycle: " + cycle)
-    print("Current state: " + state)
-    for transition in fsmd[state]:
+    #Print information for each cycle:
+    print('Cycle: ' + cycle)
+    print('Current state: ' + state)
+    condition = fsmd[state]['conditions']
+    # for transition in fsmd[state]:
+    #     if fsmd_des['fsmddescription']['fsmd'][state]['transition']['condition'] =
 
 
 
