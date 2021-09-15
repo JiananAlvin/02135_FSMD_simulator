@@ -238,7 +238,79 @@ print('\n---Start simulation---')
 
 ######################################
 ######################################
-# Write your code here!
+# Write your code here! [Our Code Line277-312]!!!!!!!!!!!!!!!!!
+# Start to simulate
+cycle = 0
+state = initial_state   # will be changed with the cycle
+repeat = True
+
+print('\n---Start simulation---')
+######################################
+
+for cycle in range(iterations+1):
+    try:
+        if (not(fsmd_stim['fsmdstimulus']['setinput'] is None)):
+            for setinput in fsmd_stim['fsmdstimulus']['setinput']:
+                # print("[setinput]+++++++++++++++++++++++++++++++++++++++++")
+                # print(setinput)
+                # print("[setinput]+++++++++++++++++++++++++++++++++++++++++")
+                if type(setinput) is str:
+                    # Only one element
+                    if int(fsmd_stim['fsmdstimulus']['setinput']['cycle']) == cycle:
+                        execute_setinput(fsmd_stim['fsmdstimulus']['setinput']['expression'])
+                    break
+                else:
+                    # More than 1 element
+                    if int(setinput['cycle']) == cycle:
+                        execute_setinput(setinput['expression'])
+    except:
+        pass
+
+    try:
+        if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)):
+            if state == fsmd_stim['fsmdstimulus']['endstate']:
+                print('End-state reached.')
+                repeat = False
+    except:
+        pass
+    #[Our Code Line277 - 312]!!!!!!!!!!!!!!!!!
+    # Print information for each cycle:
+    print('Cycle: {0}'.format(cycle))
+    print('Current state: ' + state)
+    print('Inputs:')
+    for input_i in inputs:
+        print('  {0}: {1}'.format(input_i, inputs[input_i]))
+
+    # Description of below for loop:
+    # 1. find condition, instruction of current cycle
+    # 2. find next state
+    # 3. change variables
+    for transition in fsmd[state]:
+        if type(transition) is str:
+            # Only one element
+            if transition == 'instruction':
+                execute_instruction(instruction)  # the result of operation, change variables
+                instruction = fsmd[state][transition]
+            elif transition == 'condition':
+                condition = fsmd[state][transition]
+            else:
+                state = fsmd[state][transition]   # next state
+        elif evaluate_condition(transition['condition']):
+            # More than one element
+            execute_instruction(transition['instruction'])  # the result of operation, change variables
+            condition = transition['condition']
+            instruction = transition['instruction']
+            state = transition['nextstate']   # next state
+
+    print('The condition ({0}) is true.'.format(condition))
+    print('Executing instruction: ' + instruction)
+    print('Next state: ' + state)
+    print('At the end of cycle {0} execution, the status is:'.format(cycle))
+    print('Variables:')
+    for variable in variables:
+        print('  {0}: {1}'.format(variable, variables[variable]))
+    print('---------------------------------------------------')
+
 ######################################
 
 
