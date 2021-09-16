@@ -1,0 +1,109 @@
+<fsmddescription>
+
+  <statelist>
+    <state>INITIALIZE</state>
+    <state>TEST</state>
+    <state>ADIVB</state>
+    <state>BDIVA</state>
+    <state>FINISH</state>
+  </statelist>
+
+  <initialstate>INITIALIZE</initialstate>
+
+  <inputlist>
+    <input>in_A</input>
+    <input>in_B</input>
+  </inputlist>
+
+  <variablelist>
+    <variable>var_A</variable>
+    <variable>var_B</variable>
+  </variablelist>
+
+  <operationlist>
+    <operation>
+      <name>init_A</name>
+      <expression>var_A = in_A</expression>
+    </operation>
+    <operation>
+      <name>init_B</name>
+      <expression>var_B = in_B</expression>
+    </operation>
+    <operation>
+      <name>A_divided_B</name>
+      <expression>var_A = var_A &#37; var_B</expression>
+    </operation>
+    <operation>
+      <name>B_divided_A</name>
+      <expression>var_B = var_B &#37; var_A</expression>
+    </operation>
+    </operationlist>
+
+  <conditionlist>
+    <condition>
+      <name>var_A_is_zero or var_B_is_zero</name>
+      <expression>var_A == 0 or var_B == 0</expression>
+    </condition>
+    <condition>
+      <name>A_greater_B</name>
+      <expression>var_A &gt; var_B and var_B &#33;= 0</expression>
+    </condition>
+    <condition>
+      <name>B_greater_A</name>
+      <expression>var_A &lt; var_B and var_A &#33;= 0</expression>
+    </condition>
+  </conditionlist>
+
+  <fsmd>
+    <INITIALIZE>
+      <transition>
+        <condition>True</condition>
+        <instruction>init_A init_B</instruction>
+        <nextstate>TEST</nextstate>
+      </transition>
+    </INITIALIZE>
+
+    <TEST>
+	  <transition>
+        <condition>var_A_is_zero or var_B_is_zero</condition>
+        <instruction>NOP</instruction>
+        <nextstate>FINISH</nextstate>
+      </transition>
+      <transition>
+        <condition>A_greater_B</condition>
+        <instruction>NOP</instruction>
+        <nextstate>ADIVB</nextstate>
+      </transition>
+      <transition>
+        <condition>B_greater_A</condition>
+        <instruction>NOP</instruction>
+        <nextstate>BDIVA</nextstate>
+      </transition>
+    </TEST>
+
+    <ADIVB>
+      <transition>
+        <condition>True</condition>
+        <instruction>A_divided_B</instruction>
+        <nextstate>TEST</nextstate>
+      </transition>
+    </ADIVB>
+
+    <BDIVA>
+      <transition>
+        <condition>True</condition>
+        <instruction>B_divided_A</instruction>
+        <nextstate>TEST</nextstate>
+      </transition>
+    </BDIVA>
+
+    <FINISH>
+      <transition>
+        <condition>True</condition>
+        <instruction>NOP</instruction>
+        <nextstate>FINISH</nextstate>
+      </transition>
+    </FINISH>
+  </fsmd>
+
+</fsmddescription>
