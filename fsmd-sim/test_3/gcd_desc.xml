@@ -41,15 +41,23 @@
 
   <conditionlist>
     <condition>
-      <name>var_A_is_zero or var_B_is_zero</name>
-      <expression>var_A == 0 or var_B == 0</expression>
+      <name>A&#40;remainder&#41;_is_zero</name>
+      <expression>var_A == 0</expression>
+    </condition>
+	<condition>
+      <name>B&#40;remainder&#41;_is_zero</name>
+      <expression>var_B == 0</expression>
+    </condition>
+	<condition>
+      <name>A_equal_B</name>
+      <expression>var_A == var_B</expression>
     </condition>
     <condition>
-      <name>A_greater_B</name>
+      <name>A_greater_B_and_B_not_0</name>
       <expression>var_A &gt; var_B and var_B &#33;= 0</expression>
     </condition>
     <condition>
-      <name>B_greater_A</name>
+      <name>B_greater_A_and_A_not_0</name>
       <expression>var_A &lt; var_B and var_A &#33;= 0</expression>
     </condition>
   </conditionlist>
@@ -65,17 +73,27 @@
 
     <TEST>
 	  <transition>
-        <condition>var_A_is_zero or var_B_is_zero</condition>
+        <condition>A&#40;remainder&#41;_is_zero</condition>
+        <instruction>NOP</instruction>
+        <nextstate>FINISH</nextstate>
+      </transition>
+	  <transition>
+        <condition>B&#40;remainder&#41;_is_zero</condition>
+        <instruction>NOP</instruction>
+        <nextstate>FINISH</nextstate>
+      </transition>
+	  <transition>
+        <condition>A_equal_B</condition>
         <instruction>NOP</instruction>
         <nextstate>FINISH</nextstate>
       </transition>
       <transition>
-        <condition>A_greater_B</condition>
+        <condition>A_greater_B_and_B_not_0</condition>
         <instruction>NOP</instruction>
         <nextstate>ADIVB</nextstate>
       </transition>
       <transition>
-        <condition>B_greater_A</condition>
+        <condition>B_greater_A_and_A_not_0</condition>
         <instruction>NOP</instruction>
         <nextstate>BDIVA</nextstate>
       </transition>
