@@ -267,17 +267,15 @@ for cycle in range(iterations+1):
     except:
         pass
 
+
     try:
-        if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)):
+        if (not (fsmd_stim['fsmdstimulus']['endstate'] is None)):
             if state == fsmd_stim['fsmdstimulus']['endstate']:
                 print('End-state reached.')
                 repeat = False
-                break
-
-
-
     except:
         pass
+
 
     #[Our Code Line277 - 312]!!!!!!!!!!!!!!!!!
     # Print information for each cycle:
@@ -315,11 +313,9 @@ for cycle in range(iterations+1):
     print('Variables:')
     for variable in variables:
         print('  {0}: {1}'.format(variable, variables[variable]))
-
     print('---------------------------------------------------')
-
-
-
+    if not repeat:
+        break
 
 
 ######################################
