@@ -239,16 +239,20 @@ print('\n---Start simulation---')
 
 ######################################
 ######################################
-# Write your code here! [Our Code Line277-312]!!!!!!!!!!!!!!!!!
+# Write your code here!
 # Start to simulate
 cycle = 0
-state = initial_state   # will be changed with the cycle
+state = initial_state   # will be changed with the cycles.
 repeat = True
 
 print('\n---Start simulation---')
 ######################################
-
 for cycle in range(iterations+1):
+    #
+    # Description:
+    # This is a code snippet used to update the inputs values according to the
+    # stimuli file content. You can see here how the 'fsmd_stim' variable is used.
+    #
     try:
         if (not(fsmd_stim['fsmdstimulus']['setinput'] is None)):
             for setinput in fsmd_stim['fsmdstimulus']['setinput']:
@@ -266,8 +270,11 @@ for cycle in range(iterations+1):
                         execute_setinput(setinput['expression'])
     except:
         pass
-
-
+    #
+    # Description:
+    # This is a code snippet used to check the endstate value according to the
+    # stimuli file content. You can see here how the 'fsmd_stim' variable is used.
+    #
     try:
         if (not (fsmd_stim['fsmdstimulus']['endstate'] is None)):
             if state == fsmd_stim['fsmdstimulus']['endstate']:
@@ -276,36 +283,39 @@ for cycle in range(iterations+1):
     except:
         pass
 
-
-    #[Our Code Line277 - 312]!!!!!!!!!!!!!!!!!
-    # Print information for each cycle:
+    #
+    # Here we print the No. of cycle, current state and inputs.
     print('Cycle: {0}'.format(cycle))
     print('Current state: ' + state)
     print('Inputs:')
     for input_i in inputs:
         print('  {0}: {1}'.format(input_i, inputs[input_i]))
-
+    #
     # Description of below for loop:
     # 1. find condition, instruction of current cycle
     # 2. find next state
-    # 3. change variables
+    # 3. change the values of the variables
     for transition in fsmd[state]:
+        # Only one element
         if type(transition) is str:
-            # Only one element
             if transition == 'instruction':
-                execute_instruction(instruction)  # the result of operation, change variables
+                # the result of operation, change variables
+                execute_instruction(instruction)
                 instruction = fsmd[state][transition]
             elif transition == 'condition':
                 condition = fsmd[state][transition]
             else:
-                state = fsmd[state][transition]   # next state
+                state = fsmd[state][transition]  # next state
+        # More than one element
         elif evaluate_condition(transition['condition']):
-            # More than one element
-            execute_instruction(transition['instruction'])  # the result of operation, change variables
+            # the result of operation, change variables
+            execute_instruction(transition['instruction'])
             condition = transition['condition']
             instruction = transition['instruction']
-            state = transition['nextstate']   # next state
-
+            state = transition['nextstate']  # next state
+    #
+    # Here we print the true condition, the executing instruction, next state and the
+    # values of the variables.
     print('The condition ({0}) is true.'.format(condition))
     print('Executing instruction: ' + instruction)
     print('Next state: ' + state)
@@ -314,48 +324,9 @@ for cycle in range(iterations+1):
     for variable in variables:
         print('  {0}: {1}'.format(variable, variables[variable]))
     print('---------------------------------------------------')
+
     if not repeat:
         break
-
-
 ######################################
-
-
 print('\n---End of simulation---')
 
-#
-# Description:
-# This is a code snippet used to update the inputs values according to the
-# stimuli file content. You can see here how the 'fsmd_stim' variable is used.
-#
-'''
-try:
-    if (not(fsmd_stim['fsmdstimulus']['setinput'] is None)):
-        for setinput in fsmd_stim['fsmdstimulus']['setinput']:
-            if type(setinput) is str:
-                #Only one element
-                if int(fsmd_stim['fsmdstimulus']['setinput']['cycle']) == cycle:
-                    execute_setinput(fsmd_stim['fsmdstimulus']['setinput']['expression'])
-                break
-            else:
-                #More than 1 element
-                if int(setinput['cycle']) == cycle:
-                    execute_setinput(setinput['expression'])
-except:
-    pass
-'''
-
-#
-# Description:
-# This is a code snipppet used to check the endstate value according to the
-# stimuli file content. You can see here how the 'fsmd_stim' variable is used.
-#
-'''
-try:
-    if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)):
-        if state == fsmd_stim['fsmdstimulus']['endstate']:
-            print('End-state reached.')
-            repeat = False
-except:
-    pass
-'''
